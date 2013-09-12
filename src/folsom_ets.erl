@@ -41,6 +41,8 @@
          get_handlers_info/0,
          get_info/1,
          get_values/1,
+	 get_values/2,
+	 get_values/3,
          get_history_values/2,
          get_group_values/1,
          get_group_values/2
@@ -164,6 +166,12 @@ get_values(Name, spiral) ->
     folsom_metrics_spiral:get_values(Name);
 get_values(_, Type) ->
     {error, Type, unsupported_metric_type}.
+
+get_values(Name, duration, Options) ->
+    folsom_metrics_duration:get_values(Name, Options);
+get_values(Name, Type, _) ->
+    get_values(Name, Type).
+
 
 get_history_values(Name, Count) ->
     folsom_metrics_history:get_events(Name, Count).

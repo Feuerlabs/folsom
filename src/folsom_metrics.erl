@@ -57,6 +57,7 @@
          get_metrics_value/2,
          get_metric_info/1,
          get_metric_value/1,
+	 get_metric_value/3,
          get_histogram_statistics/1,
 	 get_histogram_statistics_subset/2,
          get_histogram_statistics/2,
@@ -167,6 +168,9 @@ get_metric_info(Name) ->
 
 get_metric_value(Name) ->
     folsom_ets:get_values(Name).
+
+get_metric_value(Name, Type, Options) ->
+    folsom_ets:get_values(Name, Type, Options).
 
 get_histogram_statistics(Name) ->
     Values = folsom_ets:get_values(Name),

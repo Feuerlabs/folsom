@@ -34,7 +34,8 @@
 -export([new/1,
          update/2,
          get_value/1,
-         get_values/1
+         get_values/1,
+	 get_values/2
          ]).
 
 -include("folsom.hrl").
@@ -73,3 +74,14 @@ get_values(Name) ->
     {Name, Cnt, _Start, Last} = get_value(Name),
     Stats = bear:get_statistics(Values),
     [{count, Cnt}, {last, Last} | Stats].
+
+get_values(Name, Options) ->
+    case proplists:get_value(items, Options) of
+	undefined ->
+	    get_values(Name);
+	Items ->
+	    Values = folsom_metrics_histogram:get_values(Name),
+	    {Name, Cnt, _Start, Last} = get_value(Name),
+	    Stats = bear:get_statistics_subset(Values, Items),
+	    [{count, Cnt}, {last, Last} | Stats]
+    end.
